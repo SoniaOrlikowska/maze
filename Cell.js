@@ -5,6 +5,8 @@ import Distances from "./Distances.js"
 		this.row = row
 		this.column = column
 		this.links = {}
+		this.parent = null;
+		this.visited = null;
 		this.north = null
 		this.south = null
 		this.east = null

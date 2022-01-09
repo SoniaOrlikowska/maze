@@ -6,7 +6,7 @@ export default class Complexity{
                 links_array.push(cell.get_links().length);
             });
         });
-        
+
        let forks_number = links_array.filter(fork => fork === 2).length;
        let intersection_number = links_array.filter(intersection => intersection === 3).length;
        let corridors_number = links_array.filter(corridors => corridors === 1).length;
@@ -16,7 +16,6 @@ export default class Complexity{
             "intersection_number" : intersection_number,
             "corridors_number" : corridors_number
         }
-
        return complexity_parameters;
     }
 
@@ -24,8 +23,7 @@ export default class Complexity{
         let corridors =  complexity_parameters.corridors_number;
         let forks = complexity_parameters.forks_number;
         let intersections = complexity_parameters.intersection_number;
-        //let complexity = Math.log(corridors*forks*2*intersections*3); DO ZASTONOWIENIA
-        let complexity = Math.log(corridors);
+        let complexity = Math.log(corridors*forks*2*intersections*3); //DO ZASTONOWIENIA
         return complexity;
     }
     }

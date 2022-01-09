@@ -3,18 +3,9 @@ import Grid from "./Grid.js"
 export default class DistanceGrid extends Grid {
 	constructor(rows, columns) {
 		super(rows, columns)
-
-		// this.rows = rows
-		// this.columns = columns
-
-		// this.prepare_grid()
-		// this.configure_cells()
-		this.distances = null
+		//this.distances = null jakie ta linijka ma znaczenie, przedtem był uncomment
 	}
 
-	complexity(){
-		return super.grid;
-	}
 	contents_of(cell) {
 		if (this.distances && this.distances.get_cell(cell)) {
 			return this.distances.get_cell(cell).toString(36)
