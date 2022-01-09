@@ -23,22 +23,33 @@ class BFS extends DistanceGrid{
     // 5. take last element in stack --> go to 2
     start_bfs_solver(stack){
         let start_cell = stack[0];
-
-        const cell_links_keys = this.get_cell_link_keys(start_cell);
-       // stack.pop();
-        cell_links_keys.forEach(key => {            //0#1 klucz linka
-            let x = key.charAt(0);
-            let y = key.charAt(2);
-            stack.push(super.get_cell(x,y));
-            super.get_cell(x,y).visited = "yes";
-            super.get_cell(x,y).parent = start_cell.get_id();
-
+        let end = super.get_cell(this.rows - 1, this.columns - 1); //end is fixed as is start
+       
+        start_cell.visited = "yes";
+        let current = start_cell;
     
-        });
+        while(current != end){
+            const cellAdjacents = this.getAdjacents(current);
+            let current_id = current.get_id();
+
+            console.log("current id: " + current_id);
+            cellAdjacents.forEach(key => {
+                let x = key.charAt(0);
+                let y = key.charAt(2);
+                let adjacentCell = super.get_cell(x,y);
+                if(adjacentCell.visited != "yes"){
+                    adjacentCell.visited = "yes";
+                    adjacentCell.parent = current_id;
+                    stack.push(adjacentCell);
+                }
+            });
+            current = stack.pop();
+        } 
+        
        return stack;
     }
 
-    get_cell_link_keys(cell){
+    getAdjacents(cell){
         return cell.get_links();
     }
 
@@ -66,3 +77,5 @@ test.start_bfs_solver(stack);
 console.log("PO");
 console.log(stack.length);
 console.log(stack);
+console.log("FINISH")
+console.log(test.grid);
