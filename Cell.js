@@ -2,15 +2,17 @@
 import Distances from "./Distances.js"
  export default class Cell {
 	constructor(row, column) {
-		this.row = row
-		this.column = column
-		this.links = {}
-		this.parent = null;
-		this.visited = null;
-		this.north = null
-		this.south = null
-		this.east = null
-		this.west = null
+		this.row = row;
+		this.column = column;
+		this.parent = "";
+		this.visited = "";
+		this.solution = " "; 
+		this.links = {};
+		this.north = null;
+		this.south = null;
+		this.east = null;
+		this.west = null;
+		
 	}
 
 	link(cell, bidi=true) {
@@ -24,7 +26,7 @@ import Distances from "./Distances.js"
 	}
 	
 	get_links() {
-		return Object.keys(this.links)
+		return Object.keys(this.links);
 	}
 
 	isLinked(cell) {
@@ -67,5 +69,9 @@ import Distances from "./Distances.js"
 
 		return distances
 	}
+
+
+
+	
 }
 

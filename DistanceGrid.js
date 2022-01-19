@@ -29,8 +29,11 @@ export default class DistanceGrid extends Grid {
 			for (let j = 0; j < row.length; j += 1) {
 				let cell = row[j]
 				
-				// let body = '   '
-				let body = ` ${this.contents_of(cell)} `
+				let body = ' '
+				if(cell.solution === "yes"){ body = " > ";
+				}else{body = ` ${this.contents_of(cell)} `}
+			
+				 
 				let east_boundary = (cell.east && cell.isLinked(cell.east)) ? ' ' : '|'
 				top += body + east_boundary
 

@@ -55,7 +55,7 @@ export default class Distances {
 
 		return [max_cell_id, max_distance]
 	}
-	end(maze_rows, maze_height){
+	end(maze_rows, maze_height){  // fixed maze end
 		let end_cell_id = `${maze_rows -1}#${maze_height -1}`;
 		let end_distance = this.cells[end_cell_id];
 		return end_distance;
