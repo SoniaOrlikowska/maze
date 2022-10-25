@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Mazes For Programmers - Chapter 2</title>
+	<style>
+		canvas {
+			image-rendering: pixelated;
+		}
+	</style>
+</head>
+<body>
+	<canvas id='output_bfs'></canvas>
+	<canvas id='output_astar'></canvas>
+	<canvas id='output_dijkstra'></canvas>
+	<script src='Cell.js'></script>
+	<script src='Grid.js'></script>
+	<script src='Distances.js'></script>
+	<script src='BFS.js'></script>
+	<script src='Astar.js'></script>
+	<script src='Dijkstra.js'></script>
+	<script src='BinaryTree.js'></script>
+    <script src='AldousBroder.js'></script>
+    <script src='RecursiveBacktracker.js'></script>
+	
+	<script>
+        let h = 80;
+		let w = 80;
+		let grid = new Grid(h,w);
+		//let maze = new RecursiveBacktracker();
+        //let maze = new BinaryTree();
+        let maze = new AldousBroder();
+		
+		maze.on(grid);
+		let cellSize = 6;
+		
+		let output_bfs = document.getElementById('output_bfs');
+		let output_astar = document.getElementById('output_astar');
+		let output_dijkstra = document.getElementById('output_dijkstra');
+		 output_bfs.width = cellSize * w + 1;
+		 output_bfs.height = cellSize * h + 1;
+		 output_astar.width = cellSize * w + 1;
+		 output_astar.height = cellSize * h + 1;
+		 output_dijkstra.width = cellSize * w + 1;
+		 output_dijkstra.height = cellSize * h + 1;
+
+		 let ctx_bfs = output_bfs.getContext('2d');
+		 let ctx_astar = output_astar.getContext('2d');
+		 let ctx_dijkstra = output_dijkstra.getContext('2d');
+
+		 grid.create_more_links();
+		 grid.to_img(ctx_bfs,cellSize);
+		 grid.to_img(ctx_astar,cellSize);
+		 grid.to_img(ctx_dijkstra,cellSize);
+
+		 let astarsolver = new Astar(grid);
+		 grid.draw_img_solution(ctx_astar,cellSize,"red",astarsolver.start,astarsolver.goal);
+		 let bfssolver = new BFS(grid);
+		 grid.draw_img_solution(ctx_bfs,cellSize,"blue",bfssolver.start,bfssolver.goal);
+		 let dijkstrasolver = new BFS(grid);
+		 grid.draw_img_solution(ctx_dijkstra,cellSize,"green",bfssolver.start,bfssolver.goal);
+
+	
+
+		// setTimeout(function(){
+		// grid.calculate_degree();
+		// grid.draw_img_density(ctx,cellSize);
+		// },1000);
+
+		
+
+
+	</script>
+</body>
+</html>

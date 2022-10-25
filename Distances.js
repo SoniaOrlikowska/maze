@@ -1,15 +1,14 @@
-import "perf_hooks"
-export default class Distances {
+//import "perf_hooks"
+//export default class Distances {
+	class Distances{
 	constructor(root) {
 		this.root = root
 		this.cells = {}
 		this.cells[this.root.get_id()] = 0
 	}
-
 	get_cell(cell) {
 		return this.cells[cell.get_id()]
 	}
-
 	set_cell(cell, distance) {
 		this.cells[cell.get_id()] = distance;
 	}
@@ -17,11 +16,10 @@ export default class Distances {
 	get_cells() {
 		return Object.keys(this.cells)
 	}
-
 	path_to(goal) {
 		let start = performance.now();
 		let current = goal
-
+		current.set_solution(true);
 		let breadcrumbs = new Distances(this.root)
 		breadcrumbs.set_cell(current, this.get_cell(current))
 
@@ -29,6 +27,7 @@ export default class Distances {
 			for (let link in current.links) {
 				let neighbor = current.links[link]
 				if (this.get_cell(neighbor) < this.get_cell(current)) {
+					neighbor.set_solution(true)
 					breadcrumbs.set_cell(neighbor, this.get_cell(neighbor))
 					current = neighbor
 					break

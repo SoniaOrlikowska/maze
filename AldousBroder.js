@@ -1,4 +1,5 @@
-export default class AldousBroder {
+//export default class AldousBroder {
+	class AldousBroder{
 	on(grid) {
 		let cell = grid.get_random_cell()
 		let unvisited = grid.size() - 1

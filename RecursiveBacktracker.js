@@ -1,4 +1,5 @@
-export default class RecursiveBacktracker {
+//export default class RecursiveBacktracker {
+	class RecursiveBacktracker{
 	on(grid, start_at = grid.get_random_cell()) {
 		let stack = [start_at]
 
