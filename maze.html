@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<!--<link rel="stylesheet" href="index.css"> -->
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
+</style>
+</head>
+<body class="w3-light-white">
+
+  <script src='Cell.js'></script>
+	<script src='Grid.js'></script>
+	<script  src='Distances.js'></script>
+	<script  src='BFS.js'></script>
+	<script src='Astar.js'></script>
+	<script src='Dijkstra.js'></script>
+	<script  src='BinaryTree.js'></script>
+  <script  src='AldousBroder.js'></script>
+  <script  src='RecursiveBacktracker.js'></script>
+  <script  src='MazeParameters.js'></script>
+  <script  src='Complexity_McClendon.js'></script>
+  <script  src='Entropy_Shannon.js'></script>
+
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Maze Application</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About Me</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </li>
+          </ul>
+          <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+        </div>
+      </nav>
+<!-- Page Container -->
+<div class="w3-content w3-margin-top" style="max-width:1400px;">
+  <!-- The Grid -->
+  <div class="w3-row-padding">
+    
+    <!-- Left Column -->
+    <div class="w3-quarter"><!-- rozmiar karty 1/3 -->
+      <div class="w3-white w3-text-grey w3-card-4"><!-- białe tło karty, szary tekst i cień karty -->
+        <div class="w3-display-container"> <!-- niewiem -->
+          <div class="w3-display-bottomleft w3-container w3-text-black">
+          </div>
+        </div>
+        <div class="w3-container">
+            <hr> Maze Generator
+          <form id="generate-form" class= "form my-2 my-lg-0">
+            
+                <div class="form-group">
+                  <label for="formControlRange">Size X</label>
+                  <input type="range" class="form-control-range" id="formControlRangeX" value="20" min="5" max="80" oninput="this.nextElementSibling.value = this.value">
+                  <output>20</output>
+                </div>
+
+                <div class="form-group">
+                    <label for="formControlRange">Size X</label>
+                    <input type="range" class="form-control-range" id="formControlRangeY" value="20" min="5" max="80" oninput="this.nextElementSibling.value = this.value">
+                    <output>20</output>
+                  </div>
+              
+            <hr> Maze Generator
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio-binary">
+                <label class="form-check-label" for="flexRadioDefault1">
+                    Binary Tree
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio-aldous">
+                <label class="form-check-label" for="flexRadioDefault2">
+                  Aldous-Broder
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio-recursive">
+                <label class="form-check-label" for="flexRadioDefault2">
+                  Recursive-Backtracker
+                </label>
+              </div>
+               <hr> Other Maze Parameters
+               <div class="form-check">
+                <label class="form-check-label">
+                  <input type="checkbox" class="form-check-input" value="">Add Cycles
+                </label>
+              </div>
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="checkbox" class="form-check-input" value="">Add directions
+                </label>
+              </div>
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="checkbox" class="form-check-input" value="">Add weight
+                </label>
+              </div>
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Generate</button>
+              
+          </form>
+        </div>
+      </div><br>
+    <!-- End Left Column -->
+    </div>
+
+    <!-- Middle Column -->
+    <div class="w3-half">
+      <div class="w3-container w3-card w3-white w3-margin-bottom">
+        <div class="w3-container">
+            <canvas id='output_bfs'></canvas>
+        </div>
+      </div>
+
+      <div class="w3-container w3-card w3-white w3-margin-bottom">
+        <div class="w3-container w3-margin-bottom">
+            <p>Recommended Solver:</p>
+          <form id="solve-form">
+            <div class="form-check-inline">
+                <label class="form-check-label">
+                  <input type="radio" class="form-check-input" id="astar-radio" name="optradio">Astar
+                </label>
+              </div>
+              <div class="form-check-inline">
+                <label class="form-check-label">
+                  <input type="radio" class="form-check-input" id="dijkstra-radio" name="optradio">Dijkstra
+                </label>
+              </div>
+              <div class="form-check-inline">
+                <label class="form-check-label">
+                  <input type="radio" class="form-check-input" id="bfs-radio" name="optradio">BFS
+                </label>
+              </div>
+              <div class="form-check-inline">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Solve</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+     <!-- End Right Column -->
+    </div>
+      <div class="w3-quarter">
+        <div class="w3-container w3-card w3-white w3-margin-bottom">
+          <h2 class="w3-text-grey w3-padding-16"><i class="fa  fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Maze Parameters</h2>
+          <div class="w3-container">
+            <table class="table table-striped">
+                <tr>
+                  <th>Parameter</th>
+                  <th>Value</th>
+                </tr>
+                <tr>
+                  <td>Maze Size</td>
+                  <td id="maze-size"></td>
+                </tr>
+                <tr>
+                  <td>Average Path Lenght</td>
+                  <td id="avg-path-len"></td>
+                </tr>
+                <tr>
+                  <td>Dead End Ratio</td>
+                  <td id="deadend-ratio"></td>
+                </tr>
+                <tr>
+                    <td>Forks Ratio</td>
+                    <td id="forks-ratio"></td>
+                </tr>
+                <tr>
+                    <td>Intersection Ratio</td>
+                    <td id="intersection-ratio"></td>
+                </tr>
+                <tr>
+                    <td>Cross Ratio</td>
+                    <td id="cross-ratio"></td>
+                </tr>
+                <tr>
+                    <td>McClendon's Complexity</td>
+                    <td id="complexity"></td>
+                </tr>
+                <tr>
+                    <td>Shannon's Entropy</td>
+                    <td id="entropy"></td>
+                </tr>
+                <tr>
+                    <td>Steps to solve</td>
+                    <td id="steps-result"></td>
+                </tr>
+              </table>
+          </div>
+        </div>    
+  <!-- End Grid -->
+  </div>
+  <!-- End Page Container -->
+</div>  
+<footer class="w3-container w3-teal w3-center w3-margin-top">
+  <p>Find me on social media.</p>
+  <i class="fa fa-linkedin w3-hover-opacity"></i>
+</footer>
+
+
+
+    <!-- Script-->
+
+    <script>
+       // let h = 6;
+       // let w = 6;
+       // let grid = new Grid(h,w);
+       // let maze = new RecursiveBacktracker();
+       // maze.on(grid);
+       // let cellSize =50;
+        
+        // let output = document.getElementById('output_bfs');
+
+        // output.width = cellSize * w + 1;
+        // output.height = cellSize * h + 1;
+
+        // let ctx = output.getContext('2d');
+        
+        //grid.create_more_links();
+        //grid.to_img(ctx,cellSize); 
+        let grid;
+        let ctx;
+        let cellSize
+        let generator;
+        let solver;
+        //MAZE PARAMETERS//
+        //let mazeSize;
+        // let avgPathLen;
+        // let deadEndRatio;
+        // let forksRatio;
+        // let intersectionRatio;
+        // let crossRatio;
+        // let mcClendonComplexity;
+        // let entropy;
+
+        const generateButton = document.querySelector("#generate-form");
+        const solveButton = document.querySelector("#solve-form");
+        const stepsResult = document.querySelector("#steps-result");
+
+        const mazeSize = document.querySelector("#maze-size");
+        const avgPathLen = document.querySelector("#avg-path-len");
+        const deadEndRatio = document.querySelector("#deadend-ratio");
+        const forksRatio = document.querySelector("#forks-ratio");
+        const intersectionRatio = document.querySelector("#intersection-ratio");
+        const crossRatio = document.querySelector("#cross-ratio");
+        const mcClendonComplexity = document.querySelector("#complexity");
+        const entropy = document.querySelector("#entropy");
+
+        //GENERATOR
+        generateButton.addEventListener("submit", event => {
+            event.preventDefault();
+            const x = parseInt(document.querySelector("#formControlRangeX").value);
+            const y = parseInt(document.querySelector("#formControlRangeY").value);
+            grid = new Grid(x,y);
+
+            if(document.querySelector("#radio-binary").checked){
+                generator= new BinaryTree();
+                }else if(document.querySelector("#radio-aldous").checked){
+                    generator= new AldousBroder();
+                }else if(document.querySelector("#radio-recursive").checked){
+                    generator= new RecursiveBacktracker();
+                }
+                generator.on(grid)
+                mazeSize.textContent = grid.size;
+                let dijkstra = new Dijkstra(grid)
+                let averagePathLength = grid.get_averagePathLength(dijkstra.start);
+                avgPathLen.textContent = averagePathLength.toFixed(3);
+                let mazeParameters = new MazeParameters(grid).calculate_parameters_ratio();
+                let mazeComplexity = new Complexity_McClendon(grid).maze_complexity;
+               // let mazeRatio = mazeParameters.calculate_parameters_ratio();
+               deadEndRatio.textContent = mazeParameters[0];
+               forksRatio.textContent = mazeParameters[1];
+               intersectionRatio.textContent = mazeParameters[2];
+               crossRatio.textContent = mazeParameters[3];
+               mcClendonComplexity.textContent = mazeComplexity.toFixed(3);
+               entropy.textContent = new Entropy_Shannon(grid).calculateMazeEntropy().toFixed(3);
+        
+
+
+           
+
+            
+            cellSize =10;
+            let output = document.getElementById('output_bfs');
+
+            output.width = cellSize * x + 1;
+            output.height = cellSize * y + 1;
+
+            ctx = output.getContext('2d');
+            grid.to_img(ctx,cellSize); 
+
+        });
+
+
+
+        //SOLVER 
+            solveButton.addEventListener("submit", event => {
+                event.preventDefault();
+                if(document.querySelector("#bfs-radio").checked){
+                solver = new BFS(grid);
+                grid.draw_img_solution(ctx,cellSize,"blue",solver.start,solver.goal);
+                }else if(document.querySelector("#astar-radio").checked){
+                    solver = new Astar(grid);
+                    grid.draw_img_solution(ctx,cellSize,"blue",solver.start,solver.goal);
+                }else if(document.querySelector("#dijkstra-radio").checked){
+                    solver = new Dijkstra(grid);
+                    grid.draw_img_solution(ctx,cellSize,"blue",solver.start,solver.goal);
+                }
+
+                stepsResult.textContent = solver.steps;
+        });
+
+            
+        </script>
+</body>
+</html>
