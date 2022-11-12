@@ -1,8 +1,9 @@
-//export default class AldousBroder {
-	class AldousBroder{
+class AldousBroder {
+	//class AldousBroder{
 	on(grid) {
 		let cell = grid.get_random_cell()
-		let unvisited = grid.size() - 1
+		//let unvisited = grid.size() - 1
+		let unvisited = grid.size	 - 1
 
 		while (unvisited > 0) {
 			let neighbors = cell.neighbors()

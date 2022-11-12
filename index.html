@@ -1,74 +1,696 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title>Mazes For Programmers - Chapter 2</title>
-	<style>
-		canvas {
-			image-rendering: pixelated;
-		}
-	</style>
+  <title>W3.CSS Template</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <!--<link rel="stylesheet" href="index.css"> -->
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Nunito'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    html,
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: "Nunito", -apple-system, sans-serif
+    }
+  </style>
 </head>
-<body>
-	<canvas id='output_bfs'></canvas>
-	<canvas id='output_astar'></canvas>
-	<canvas id='output_dijkstra'></canvas>
-	<script src='Cell.js'></script>
-	<script src='Grid.js'></script>
-	<script src='Distances.js'></script>
-	<script src='BFS.js'></script>
-	<script src='Astar.js'></script>
-	<script src='Dijkstra.js'></script>
-	<script src='BinaryTree.js'></script>
-    <script src='AldousBroder.js'></script>
-    <script src='RecursiveBacktracker.js'></script>
-	
-	<script>
-        let h = 80;
-		let w = 80;
-		let grid = new Grid(h,w);
-		//let maze = new RecursiveBacktracker();
-        //let maze = new BinaryTree();
-        let maze = new AldousBroder();
-		
-		maze.on(grid);
-		let cellSize = 6;
-		
-		let output_bfs = document.getElementById('output_bfs');
-		let output_astar = document.getElementById('output_astar');
-		let output_dijkstra = document.getElementById('output_dijkstra');
-		 output_bfs.width = cellSize * w + 1;
-		 output_bfs.height = cellSize * h + 1;
-		 output_astar.width = cellSize * w + 1;
-		 output_astar.height = cellSize * h + 1;
-		 output_dijkstra.width = cellSize * w + 1;
-		 output_dijkstra.height = cellSize * h + 1;
 
-		 let ctx_bfs = output_bfs.getContext('2d');
-		 let ctx_astar = output_astar.getContext('2d');
-		 let ctx_dijkstra = output_dijkstra.getContext('2d');
-
-		 grid.create_more_links();
-		 grid.to_img(ctx_bfs,cellSize);
-		 grid.to_img(ctx_astar,cellSize);
-		 grid.to_img(ctx_dijkstra,cellSize);
-
-		 let astarsolver = new Astar(grid);
-		 grid.draw_img_solution(ctx_astar,cellSize,"red",astarsolver.start,astarsolver.goal);
-		 let bfssolver = new BFS(grid);
-		 grid.draw_img_solution(ctx_bfs,cellSize,"blue",bfssolver.start,bfssolver.goal);
-		 let dijkstrasolver = new BFS(grid);
-		 grid.draw_img_solution(ctx_dijkstra,cellSize,"green",bfssolver.start,bfssolver.goal);
-
-	
-
-		// setTimeout(function(){
-		// grid.calculate_degree();
-		// grid.draw_img_density(ctx,cellSize);
-		// },1000);
-
-		
+<body class="w3-light-white">
+  <script src='Cell.js'></script>
+  <script src='Grid.js'></script>
+  <script src='Distances.js'></script>
+  <script src='BFS.js'></script>
+  <script src='Astar.js'></script>
+  <script src='Dijkstra.js'></script>
+  <script src='BinaryTree.js'></script>
+  <script src='AldousBroder.js'></script>
+  <script src='RecursiveBacktracker.js'></script>
+  <script src='MazeParameters.js'></script>
+  <script src='Complexity_McClendon.js'></script>
+  <script src='Entropy_Shannon.js'></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
-	</script>
-</body>
+  <!--Navbar-->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Maze Application</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About Me</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About Mazes</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="container-fluid" style="max-width:1400px; padding-left: 0px;">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    </div>
+    <!-- Maze Generator Card -->
+    <div class="row">
+      <div class="col-md-2 col-sm-1">
+        <div class=" card-body shadow-sm  w3-round-large"
+          style="border-left: 0.25rem solid #4e73df!important;padding: 0;">
+          <!--Card Header-->
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Maze Generator</h6>
+          </div>
+          <div class="w3-container  w3-display-container w3-margin-bottom w3-margin-top">
+            <!--Form-->
+            <form id="generate-form" class="form my-2 my-lg-0">
+              <!--Size Range-->
+              <div class="form-group" style="margin-bottom: 0rem">
+                <label for="formControlRange"></label>Set maze's width:</label><br>
+                <input type="range" class="form-control-rangew-50" id="maze-width" value="20" min="0" max="80"
+                  oninput="this.nextElementSibling.value = this.value">
+                <output style="font-size: 0.85rem; padding-bottom: 0%;">20</output><br>
+              </div>
+              <div class="form-group" style="margin-bottom: 0rem">
+                <label for="formControlRange">Set maze's height :</label><br>
+                <input type="range" class="form-control-rangew-50" id="maze-height" value="20" min="0" max="80"
+                  oninput="this.nextElementSibling.value = this.value">
+                <output style="font-size: 0.85rem; padding-bottom: 0%;">20</output><br>
+              </div>
+              <hr>
+              <!--Choose Maze Generator-->
+              <div class="w3-margin-bottom">Choose Maze Generator:</div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio-binary">
+                <label class="form-check-label" for="flexRadioDefault1">
+                  Binary Tree
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio-aldous" checked>
+                <label class="form-check-label" for="flexRadioDefault2">
+                  Aldous-Broder
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio-recursive">
+                <label class="form-check-label" for="flexRadioDefault2">
+                  Recursive-Backtracker
+                </label>
+              </div>
+              <div class="form-check py-4" style="margin-bottom: 0.5rem">
+                <label class="form-check-label">
+                  <input type="checkbox" id="perfect-maze" class="form-check-input" style="font-size: 0.85rem;"
+                    checked>Generate Perfect Maze
+                </label>
+              </div>
+              <div class="form-group" style="margin-bottom: 0.5rem">
+                <label for="formControlRange">Set cycles ratio:</label><br>
+                <input type="range" class="form-control-rangew-50" id="cycles-ratio" value="0" min="0" max="100"
+                  oninput="this.nextElementSibling.value = this.value" style="margin-bottom: 1rem" disabled>
+                <output style="font-size: 0.85rem; padding-bottom: 0%;" id="cycles-ratio-output">0</output><output
+                  style="font-size: 0.85rem; padding-bottom: 0%;">%</output>
+              </div>
+              <button class="btn btn-outline-primary my-2 my-sm-0 " type="submit">Generate New Maze</button>
+              <hr>
+              <div class="form-group" style="margin-bottom: 0rem">
+                <label for="formControlRange">Add some directions?</label><br>
+                <div class="form-check-inline">
+                  <label class="form-check-label">
+                    <input type="radio" class="form-check-input py-3 " id="yes-radio" name="optradio">Yes
+                  </label>
+                </div>
+                <div class="form-check-inline" style="margin-bottom: 1rem">
+                  <label class="form-check-label">
+                    <input type="radio" class="form-check-input py-3" id="no-radio" name="optradio">No
+                  </label>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Maze Canvas -->
+      <div class="col-xl-4">
+        <div class="row" style="padding-bottom: 15px;">
+          <!-- Card Body Maze-->
+          <div class=" card-body shadow-sm  w3-round-large" style="border-left: 0.25rem solid #1cc88a;padding: 0;">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 class="m-0 font-weight-bold text-success">New Maze</h6>
+            </div>
+            <div class="w3-container  w3-display-container w3-margin-bottom w3-margin-top">
+              <canvas id="maze-canvas" width="430" height="430"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card Body Solver Form-->
+        <div class="row">
+          <div class=" card-body shadow-sm  w3-round-large" style="border-left: 0.25rem solid #f6c23e;padding: 0;">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 class="m-0 font-weight-bold text-warning">Choose Maze Solver</h6>
+            </div>
+            <form id="solve-form" style="padding-top: 5px;padding-left: 15px;">
+              <div class="form-check-inline">
+                <label class="form-check-label">
+                  <input type="radio" class="form-check-input" id="astar-radio" name="optradio">Astar
+                </label>
+              </div>
+              <div class="form-check-inline">
+                <label class="form-check-label">
+                  <input type="radio" class="form-check-input" id="dijkstra-radio" name="optradio">Dijkstra
+                </label>
+              </div>
+              <div class="form-check-inline">
+                <label class="form-check-label">
+                  <input type="radio" class="form-check-input" id="bfs-radio" name="optradio">BFS
+                </label>
+              </div>
+              <div class="form-check-inline" style="padding-top: 10px; padding-bottom: 10px;">
+                <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Solve</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Area Chart -->
+      <div class="col-xl-6" style="padding-left: 30px;">
+        <div class="row" style="padding-bottom: 15px;">
+          <div class=" card-body shadow-sm  w3-round-large" style="border-left: 0.25rem solid #858796;padding: 0;">
+            <!-- Card Header -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 class="m-0 font-weight-bold" style="color: #858796;">McClendon's Complexity vs Solution Time</h6>
+              <form class="form-inline  d-flex flex-row " style="text-align: right;">
+                <button class="btn btn-outline-danger" type="submit">Clear All Data</button>
+              </form>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+              <div class="chart-area">
+                <div class="chartjs-size-monitor">
+                  <div class="chartjs-size-monitor-expand">
+                    <div class=""></div>
+                  </div>
+                  <div class="chartjs-size-monitor-shrink">
+                    <div class=""></div>
+                  </div>
+                </div>
+                <canvas id="myChart" style="display: block; height: 320px; width: 429px;" width="1158" height="380"
+                  class="chartjs-render-monitor"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class=" card-body shadow-sm  w3-round-large" style="border-left: 0.25rem solid #36b9cc ;padding: 0;">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 class="m-0 font-weight-bold text-info">Degrees Ratio vs Solution Time</h6>
+            </div>
+            <div class="card-body">
+              <div class="chart-area">
+                <div class="chartjs-size-monitor">
+                  <div class="chartjs-size-monitor-expand">
+                    <div class=""></div>
+                  </div>
+                  <div class="chartjs-size-monitor-shrink">
+                    <div class=""></div>
+                  </div>
+                </div>
+                <canvas id="myChart2" style="display: block; height: 320px; width: 429px;" width="1158" height="380"
+                  class="chartjs-render-monitor"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- MAZE PARAMETERS TABLE -->
+    <div class="row py-3" style="width:100%; padding-left: 30px;">
+      <div class=" card-body border-left-secondary shadow  w3-round-large"
+        style="border-left: 0.25rem solid #858796;padding: 0;width: 18rem;">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-secondary">Maze Details Table</h6>
+          <form class="form-inline  d-flex flex-row " style="text-align: right;">
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+
+          </form>
+
+        </div>
+
+        <div class="table-responsive">
+          <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+            <div class="row">
+              <div class="col-sm-12 col-md-6">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <table class="table-sm table-bordered dataTable align-items-center " id="dataTable" width="100%"
+                  cellspacing="0" role="grid" aria-describedby="dataTable_info" style="text-align: center;">
+                  <thead>
+                    <tr role="row">
+                      <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-sort="ascending" aria-label="Name: activate to sort column descending"
+                        style="font-size: 0.85rem;">Maze Id</th>
+                      <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-sort="ascending" aria-label="Name: activate to sort column descending"
+                        style="font-size: 0.85rem;">Generator</th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-label="Position: activate to sort column ascending" style="font-size: 0.85rem;">Size</th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-label="Position: activate to sort column ascending" style="font-size: 0.85rem;">Avg. Path
+                        Len.</th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-label="Position: activate to sort column ascending" style="font-size: 0.85rem;">Deadend
+                        Ratio
+                      </th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-label="Position: activate to sort column ascending" style="font-size: 0.85rem;">Fork Ratio
+                      </th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-label="Position: activate to sort column ascending" style="font-size: 0.85rem;">
+                        Intersection
+                        Ratio</th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-label="Position: activate to sort column ascending" style="font-size: 0.85rem;">Cross Ratio
+                      </th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-label="Position: activate to sort column ascending" style="font-size: 0.85rem;">McClendon's
+                        Complexity</th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-label="Position: activate to sort column ascending" style="font-size: 0.85rem;">Shannon's
+                        Entropy</th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-label="Position: activate to sort column ascending" style="font-size: 0.85rem;">Steps To
+                        Solve Dijkstra</th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-label="Position: activate to sort column ascending" style="font-size: 0.85rem;">Dijkstra
+                        Time
+                      </th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-label="Position: activate to sort column ascending" style="font-size: 0.85rem;">Steps To
+                        Solve BFS</th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-label="Position: activate to sort column ascending" style="font-size: 0.85rem;">BFS Time
+                      </th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-label="Position: activate to sort column ascending" style="font-size: 0.85rem;">Steps To
+                        Solve Astar</th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-label="Position: activate to sort column ascending" style="font-size: 0.85rem;">Astar Time
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="odd">
+                      <td id="maze-id"></td>
+                      <td id="generator"></td>
+                      <td id="maze-size"></td>
+                      <td id="avg-path-len"></td>
+                      <td id="deadend-ratio"></td>
+                      <td id="forks-ratio"></td>
+                      <td id="intersection-ratio"></td>
+                      <td id="cross-ratio"></td>
+                      <td id="complexity"></td>
+                      <td id="entropy"></td>
+                      <td id="steps-dijkstra"></td>
+                      <td id="time-dijkstra"></td>
+                      <td id="steps-bfs"></td>
+                      <td id="time-bfs"></td>
+                      <td id="steps-astar"></td>
+                      <td id="time-astar"></td>
+                    </tr>
+                    <tr class="even">
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Page Container -->
+      </div>
+    </div>
+    <footer class="w3-container w3-light-white w3-center w3-margin-top">
+      <hr>
+      <p>Find me on social media.</p>
+      <i class="fa fa-github w3-hover-opacity"></i>
+      <i class="fa fa-linkedin w3-hover-opacity"></i>
+      <p>2022</p>
+    </footer>
+</body class="w3-content w3-margin-top" style="max-width:1400px;">
+
+
+<!-- Script-->
+<script>
+
+  let grid;
+  let ctx;
+  let cellSize
+  let generator;
+  let solver;
+  let mazeComplexity;
+  let bfsData;
+  let generatorName;
+  let mazeId = 0;
+  let mazeParameters;
+  let row;
+  const dataRow = [{
+    generator: "",
+    mazeSize: "",
+    avgPathLen: "",
+    deadEndRatio: "",
+    forksRatio: "",
+    intersectionRatio: "",
+    crossRatio: "",
+    complexity: "",
+    entropy: "",
+  }];
+  
+  
+  
+ 
+  //MAZE GENERATOR -after Buton Generate
+  const generateButton = document.querySelector("#generate-form");
+  
+
+  const dataTable = document.querySelector("#dataTable");
+
+  const mazeSize = document.querySelector("#maze-size");
+  const avgPathLen = document.querySelector("#avg-path-len");
+  const deadEndRatio = document.querySelector("#deadend-ratio");
+  const forksRatio = document.querySelector("#forks-ratio");
+  const intersectionRatio = document.querySelector("#intersection-ratio");
+  const crossRatio = document.querySelector("#cross-ratio");
+  const mcClendonComplexity = document.querySelector("#complexity");
+  const entropy = document.querySelector("#entropy");
+  const checkbox = document.querySelector("#perfect-maze");
+  const cyclesRatio = document.querySelector("#cycles-ratio");
+  const directedRatio = document.querySelector("#directed-ratio");
+  const weightedRatio = document.querySelector("#weighted-ratio");
+  const output = document.querySelector('#maze-canvas');
+  const stepsDijkstra = document.querySelector("#steps-dijkstra");
+  const timeDijkstra = document.querySelector("#time-dijkstra");
+  const stepsBfs = document.querySelector("#steps-bfs");
+  const timeBfs = document.querySelector("#time-bfs");
+  const stepsAstar = document.querySelector("#steps-astar");
+  const timeAstar = document.querySelector("#time-astar");
+  
+
+ 
+
+  //Perfect Maze
+  checkbox.addEventListener("change", event => {
+    event.preventDefault();
+    if (checkbox.checked) {
+      cyclesRatio.value = 0;
+      document.querySelector("#cycles-ratio-output").textContent = 0;
+      cyclesRatio.disabled = true;
+      directedRatio.value = 0;
+      document.querySelector("#directed-ratio-output").textContent = 0;
+      directedRatio.disabled = true;
+      weighredRatio.value = 0;
+      document.querySelector("#weighted-ratio-output").textContent = 0;
+      weighredRatio.disabled = true;
+    } else {
+      cyclesRatio.disabled = false;
+      directedRatio.disabled = false;
+      weightedRatio.disabled = false;
+    }
+  });
+
+  //Generate Button
+  generateButton.addEventListener("submit", event => {
+    event.preventDefault();
+    ++mazeId;
+
+    //Choose Size
+    const x = parseInt(document.querySelector("#maze-width").value);
+    const y = parseInt(document.querySelector("#maze-height").value);
+    grid = new Grid(x, y);
+
+    //Chose Generator
+    if (document.querySelector("#radio-binary").checked) {
+      generator = new BinaryTree();
+      generatorName = "Binary Tree";
+    } else if (document.querySelector("#radio-aldous").checked) {
+      generator = new AldousBroder();
+      generatorName = "Aldous Broder";
+    } else if (document.querySelector("#radio-recursive").checked) {
+      generator = new RecursiveBacktracker();
+      generatorName = "Recursive-Backtracker";
+
+    }
+    //Generate Maze Grid
+    generator.on(grid);
+
+    //Add Cycles
+    if (cyclesRatio.value > 0) {
+      let ratio = cyclesRatio.value / 100;
+      grid.create_more_links(ratio);
+    }
+
+    //Maze Details 
+
+    let dijkstra = new Dijkstra(grid)
+    mazeParameters = new MazeParameters(grid).calculate_parameters_ratio();
+    mazeComplexity = new Complexity_McClendon(grid).maze_complexity;
+
+
+    //Insert Table Values
+
+    row = dataTable.insertRow(mazeId);
+    let cellGenerator = document.createElement("TH");
+    row.appendChild(cellGenerator);
+    cellGenerator.innerHTML = mazeId;
+    row.insertCell(1).innerHTML = generatorName;
+    row.insertCell(2).innerHTML = grid.size;
+    row.insertCell(3).innerHTML = grid.get_averagePathLength(dijkstra.start).toFixed(3);
+    row.insertCell(4).innerHTML = mazeParameters[0].toFixed(3);
+    row.insertCell(5).innerHTML = mazeParameters[1].toFixed(3);
+    row.insertCell(6).innerHTML = mazeParameters[2].toFixed(3);
+    row.insertCell(7).innerHTML = mazeParameters[3].toFixed(3);
+    row.insertCell(8).innerHTML = mazeComplexity.toFixed(3);
+    row.insertCell(9).innerHTML = new Entropy_Shannon(grid).calculateMazeEntropy().toFixed(3);
+
+
+    //Draw Maze
+    if (x > y) {
+      cellSize = 430 / x;
+    } else {
+      cellSize = 430 / y;
+    }
+    output.width = 430;
+    output.height = 430;
+    ctx = output.getContext('2d');
+    grid.to_img(ctx, cellSize);
+  });
+
+  //Add some directions
+  output.addEventListener("click", evt => {
+    event.target.style.cursor = "pointer";
+    const tileX = ~~(evt.offsetX / cellSize);
+    const tileY = ~~(evt.offsetY / cellSize);
+    let cell = grid.get_cell(parseInt(tileY), parseInt(tileX));
+    cell.north?.unlink_onedirection(cell);
+
+    ctx.fillStyle = "green";
+    ctx.globalAlpha = 0.3;
+    ctx.fillRect(
+      tileX * cellSize + 1,
+      tileY * cellSize + 1,
+      cellSize,
+      cellSize
+    );
+  });
+
+
+  //SOLVER 
+  const solveButton = document.querySelector("#solve-form");
+  const errorMsg = document.querySelector("#text-danger-msg");
+
+  const data = {
+    datasets: [{
+      label: 'BFS',
+      data: [],
+      backgroundColor: 'rgb(255, 99, 132)'
+    }, {
+      label: 'Dijkstra',
+      data: [],
+      backgroundColor: 'rgb(100, 200, 13)'
+    }, {
+      label: 'Astar',
+      data: [],
+      backgroundColor: 'rgb(70, 150, 200)'
+    }],
+  };
+
+  const data2 = {
+    datasets: [{
+      label: 'BFS',
+      data: [],
+      backgroundColor: 'rgb(255, 99, 132)'
+    }, {
+      label: 'Dijkstra',
+      data: [],
+      backgroundColor: 'rgb(100, 200, 13)'
+    }, {
+      label: 'Astar',
+      data: [],
+      backgroundColor: 'rgb(70, 150, 200)'
+    }],
+  };
+
+  solveButton.addEventListener("submit", event => {
+    event.preventDefault();
+    try {
+      if (document.querySelector("#bfs-radio").checked) {
+        solver = new BFS(grid);
+        grid.draw_img_solution(ctx, cellSize, "red", solver.start, solver.goal);
+        bfsData = {
+          x: parseFloat(solver.exTime.toFixed(3)),
+          y: parseFloat(mazeComplexity.toFixed(3))
+        };
+        bfsData2 = {
+          x: parseFloat(solver.exTime.toFixed(3)),
+          y: parseFloat((mazeParameters[3] / mazeParameters[0]).toFixed(3))
+        };
+        data.datasets[0].data.push(bfsData);
+        data2.datasets[0].data.push(bfsData2);
+        myChart.update();
+        myChart2.update();
+        row.insertCell(12).innerHTML = solver.steps;
+        row.insertCell(13).innerHTML = solver.exTime.toFixed(3);
+      } else if (document.querySelector("#astar-radio").checked) {
+        solver = new Astar(grid);
+        grid.draw_img_solution(ctx, cellSize, "blue", solver.start, solver.goal);
+
+        astarData = {
+          x: parseFloat(solver.exTime.toFixed(3)),
+          y: parseFloat(mazeComplexity.toFixed(3))
+        };
+        
+        astarData2 = {
+          x: parseFloat(solver.exTime.toFixed(3)),
+          y: parseFloat((mazeParameters[3] / mazeParameters[0]).toFixed(3))
+        };
+        
+        data.datasets[2].data.push(astarData);
+        data2.datasets[2].data.push(astarData2);
+        myChart.update();
+        myChart2.update();
+        row.insertCell(14).innerHTML = solver.steps;
+        row.insertCell(15).innerHTML = solver.exTime.toFixed(3);
+
+      } else if (document.querySelector("#dijkstra-radio").checked) {
+        solver = new Dijkstra(grid);
+        grid.draw_img_solution(ctx, cellSize, "green", solver.start, solver.goal);
+        
+        dijkstraData = {
+          x: parseFloat(solver.exTime.toFixed(3)),
+          y: parseFloat(mazeComplexity.toFixed(3))
+        };
+        dijkstraData2 = {
+          x: parseFloat(solver.exTime.toFixed(3)),
+          y: parseFloat((mazeParameters[3] / mazeParameters[0]).toFixed(3))
+        };
+        
+        data.datasets[1].data.push(dijkstraData);
+        data2.datasets[1].data.push(dijkstraData2);
+        myChart.update();
+        myChart2.update();
+        row.insertCell(10).innerHTML = solver.steps;
+        row.insertCell(11).innerHTML = solver.exTime.toFixed(3);
+      }
+    } catch (error) {
+      console.error(error);
+      alert("There is no solution to this maze");
+    }
+  });
+</script>
+<script>
+  const config = {
+    type: 'scatter',
+    data: data,
+    options: {
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Solution Time [ms]'
+          },
+          type: 'linear',
+          position: 'bottom',
+        },
+        y: {
+          title: {
+            display: true,
+            text: 'Maze Complexity'
+          },
+          type: 'linear',
+          position: 'bottom',
+        }
+      }
+    }
+  };
+
+  const config2 = {
+    type: 'scatter',
+    data: data2,
+    options: {
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Solution Time [ms]'
+          },
+          type: 'linear',
+          position: 'bottom',
+        },
+        y: {
+          title: {
+            display: true,
+            text: 'Cross vs Deadend Ratio'
+          },
+          type: 'linear',
+          position: 'bottom',
+        }
+      }
+    }
+  };
+</script>
+
+<script>
+  const myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+  );
+
+  const myChart2 = new Chart(
+    document.getElementById('myChart2'),
+    config2
+  );
+</script>
+
 </html>
+</body>

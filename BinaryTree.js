@@ -1,5 +1,5 @@
-//export default class BinaryTree {
-	class BinaryTree{
+class BinaryTree {
+	//class BinaryTree{
 	on(grid) {
 		let cell_gen = grid.each_cell()
 		while (true) {

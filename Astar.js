@@ -1,25 +1,27 @@
 "use strict"
-//export default class Astar{
-  class Astar{
+class Astar{
+ // class Astar{
   constructor(grid){
     grid.clear_solution();
     this.grid = grid;
     this.start = grid.get_cell(0,0);
     this.goal =  grid.get_cell(grid.rows - 1,grid.columns - 1);
-    this.exTime1 = this.start_astar_solver();
-    this.exTime2 = this.retreive_astar_path();
+    this.exTime = this.start_astar_solver() + this.retreive_astar_path();
+	this.steps;
   }
   start_astar_solver() {
 		let startTime  = performance.now();
 		let openlist = new Array();
 		let closelist = new Array();
 		let finished = false;
+		let steps = 0;
 	
 		this.start.set_g_score(0);
 		this.start.set_f_score(this.calculate_manhattanDistance(this.start.get_id(),this.goal.get_id()));
 		openlist.push(this.start);
-
+		try{
 		while(!finished){
+			steps++
 			let current_cell = this.find_lowest_f_value_cell(openlist);
 			let neighbours_id = current_cell.get_links();
 			if(current_cell == this.goal){
@@ -41,9 +43,13 @@
 				openlist = [...newopenlist];
 			  }
 		   }
+		   this.steps = steps;
 		   let endTime = performance.now();
 		   let exTime1 = endTime - startTime;
 			   return exTime1;
+			}catch(error){
+			console.error();
+		} 
 		  }
   calculate_manhattanDistance(neighbour_id, goal_id) {
     let adjacent_coordinates = neighbour_id.split("#");
@@ -79,7 +85,7 @@
 		let parrent_id = null;
 		let parentCell = null;
 		this.goal.set_solution(true);
-  
+		try{
 		while(current != this.start){
 		path.push(current);
 		parrent_id = current.parent;
@@ -89,9 +95,13 @@
 		this.grid.get_cell(x,y).set_solution(true);
 		current = parentCell;
 	  }  
-    let endTime = performance.now();
-		let exTime2 = endTime - startTime;
-    return exTime2; 
+	  let endTime = performance.now();
+	  let exTime2 = endTime - startTime;
+ 	   return exTime2; 
+		
+	}catch(error){
+		  console.error();
+	  }
   }
 }
 	

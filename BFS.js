@@ -1,15 +1,15 @@
 //import "perf_hooks"
 "use strict"
-    //export default class BFS{
-        class BFS{
+class BFS{
+// class BFS{
     constructor(grid) {
         grid.clear_solution();
         this.grid = grid;
         this.start = grid.get_cell(0,0);
         this.goal =  grid.get_cell(grid.rows - 1,grid.columns - 1);
         this.stack = this.prepare_stack();
-        this.exTime1 = this.start_bfs_solver();
-        this.exTime2 = this.retreive_bfs_path();
+        this.exTime = this.start_bfs_solver() + this.retreive_bfs_path();
+        this.steps;
 	}
     prepare_stack(){
         let stack = [];
@@ -21,11 +21,10 @@
         let start_cell = this.stack[0];
         const key = "visited"
         start_cell[key] = " yes";
-       // let end_cell = this.get_cell(this.rows - 1, this.columns - 1); //end is fixed as is start
         let current = start_cell;
-        let i = 0; 
+        let steps = 0; 
         while(current != this.goal){
-            i++;
+            steps++;
            let cellAdjacents = this.getAdjacents(current);
             let current_id = current.get_id();
             cellAdjacents.forEach(key => {
@@ -41,8 +40,10 @@
             });
             current = this.stack.pop();
         } 
+
         let endTime = performance.now();
 		let exTime1 = endTime - startTime;
+        this.steps = steps;
         return exTime1;
     }
     retreive_bfs_path(){
